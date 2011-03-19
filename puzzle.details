@@ -1,0 +1,14 @@
+/*
+---
+name: Puzzle
+description: Puzzle in html5/canvas
+authors:
+  - John Tubert
+resources:
+  - /js/Puzzle.js
+  - /index.html
+...
+*/
+
+<p>This demo will show you how to build a puzzle in html5 and canvas.</p>
+
