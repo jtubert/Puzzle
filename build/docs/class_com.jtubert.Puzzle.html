@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+<title>Class: com.jtubert.Puzzle</title>
+<meta name="generator" content="MoxieDoc" />
+
+<link rel="stylesheet" type="text/css" href="css/reset.css" />
+<link rel="stylesheet" type="text/css" href="css/grids.css" />
+<link rel="stylesheet" type="text/css" href="css/general.css" />
+
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+	google.load("jquery", "1.3");
+</script>
+<script type="text/javascript" src="js/jquery.treeview.min.js"></script>
+<script type="text/javascript" src="js/general.js"></script>
+</head>
+<body>
+<div class="classDetailsContent">
+<h1>com.jtubert.Puzzle</h1>
+<table class="classDetails">
+<tr>
+<td class="first">Namespace</td>
+<td class="last">com.jtubert</td>
+</tr>
+<tr>
+<td class="first">Class</td>
+<td class="last">Puzzle</td>
+</tr>
+</table>
+<div class="classDescription">Some function.
+</div>
+<div class="summaryLists">
+<h2>Public Methods</h2>
+<table class="Methods summary">
+<thead>
+<tr>
+<th>Method</th>
+<th>Defined By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_com.jtubert.Puzzle.html#centerPuzzle">centerPuzzle</a>(Width:int):void</div>
+<div class="summary">This method centers the puzzle in screen using css</div>
+</td>
+<td class="last">Puzzle</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
+<a class="memberName" href="class_com.jtubert.Puzzle.html#checkTime">checkTime</a>():void</div>
+<div class="summary">This method shows the timer and when it gets to zero it finishes the game</div>
+</td>
+<td class="last">Puzzle</td>
+</tr>
+<tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_com.jtubert.Puzzle.html#createPuzzle">createPuzzle</a>(img:Image):void</div>
+<div class="summary">This method draws the puzzle</div>
+</td>
+<td class="last">Puzzle</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
+<a class="memberName" href="class_com.jtubert.Puzzle.html#dragEnter">dragEnter</a>(:Object):void</div>
+<div class="summary">dragEnter</div>
+</td>
+<td class="last">Puzzle</td>
+</tr>
+<tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_com.jtubert.Puzzle.html#dragExit">dragExit</a>(:Object):void</div>
+<div class="summary">dragExit</div>
+</td>
+<td class="last">Puzzle</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
+<a class="memberName" href="class_com.jtubert.Puzzle.html#dragOver">dragOver</a>(:Object):void</div>
+<div class="summary">dragOver</div>
+</td>
+<td class="last">Puzzle</td>
+</tr>
+<tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_com.jtubert.Puzzle.html#init">init</a>(url:String, _usePhpProxy:Boolean):void</div>
+<div class="summary">This is the init method of the puzzle</div>
+</td>
+<td class="last">Puzzle</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
+<a class="memberName" href="class_com.jtubert.Puzzle.html#loadImage">loadImage</a>(url:String):void</div>
+<div class="summary">This method loads the image and calls the createPuzzle method</div>
+</td>
+<td class="last">Puzzle</td>
+</tr>
+<tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_com.jtubert.Puzzle.html#onDropFromDesktop">onDropFromDesktop</a>(:Object):void</div>
+<div class="summary">onDropFromDesktop</div>
+</td>
+<td class="last">Puzzle</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
+<a class="memberName" href="class_com.jtubert.Puzzle.html#onMouseDown">onMouseDown</a>(Event:Event):void</div>
+<div class="summary">This method gets called when the user presses the mouse button on any piece</div>
+</td>
+<td class="last">Puzzle</td>
+</tr>
+<tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_com.jtubert.Puzzle.html#onMouseUp">onMouseUp</a>(Event:Event):void</div>
+<div class="summary">This method gets called when the user releases the mouse button on any piece</div>
+</td>
+<td class="last">Puzzle</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="detailsList">
+<div class="details">
+<h2>Method details</h2>
+<div class="memberDetails" id="centerPuzzle">
+<h3>centerPuzzle<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function centerPuzzle(Width:int):void</code>
+<div class="memberDescription">This method centers the puzzle in screen using css
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">Width:int</td>
+<td class="last">of the puzzle in pixels</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">void - Doesn't return anything.</div>
+</div>
+<div class="memberDetails" id="checkTime">
+<h3>checkTime<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function checkTime():void</code>
+<div class="memberDescription">This method shows the timer and when it gets to zero it finishes the game
+</div>
+<h4>Returns</h4>
+<div class="returns">void - Doesn't return anything.</div>
+</div>
+<div class="memberDetails" id="createPuzzle">
+<h3>createPuzzle<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function createPuzzle(img:Image):void</code>
+<div class="memberDescription">This method draws the puzzle
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">img:Image</td>
+<td class="last">Image object to be used in the puzzle</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">void - Doesn't return anything.</div>
+</div>
+<div class="memberDetails" id="dragEnter">
+<h3>dragEnter<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function dragEnter(:Object):void</code>
+<div class="memberDescription">dragEnter
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">:Object</td>
+<td class="last">{Event}</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">void - Doesn't return anything.</div>
+</div>
+<div class="memberDetails" id="dragExit">
+<h3>dragExit<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function dragExit(:Object):void</code>
+<div class="memberDescription">dragExit
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">:Object</td>
+<td class="last">{Event}</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">void - Doesn't return anything.</div>
+</div>
+<div class="memberDetails" id="dragOver">
+<h3>dragOver<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function dragOver(:Object):void</code>
+<div class="memberDescription">dragOver
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">:Object</td>
+<td class="last">{Event}</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">void - Doesn't return anything.</div>
+</div>
+<div class="memberDetails" id="init">
+<h3>init<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function init(url:String, _usePhpProxy:Boolean):void</code>
+<div class="memberDescription">This is the init method of the puzzle
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">url:String</td>
+<td class="last">Url of image to be used for the puzzle.</td>
+</tr>
+<tr>
+<td class="first">_usePhpProxy:Boolean</td>
+<td class="last">If set to true the image will be load thru a proxy, if set to false it uses getimagedata instead of the proxy.</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">void - Doesn't return anything.</div>
+</div>
+<div class="memberDetails" id="loadImage">
+<h3>loadImage<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function loadImage(url:String):void</code>
+<div class="memberDescription">This method loads the image and calls the createPuzzle method
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">url:String</td>
+<td class="last">Url of image to be used for the puzzle.</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">void - Doesn't return anything.</div>
+</div>
+<div class="memberDetails" id="onDropFromDesktop">
+<h3>onDropFromDesktop<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function onDropFromDesktop(:Object):void</code>
+<div class="memberDescription">onDropFromDesktop
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">:Object</td>
+<td class="last">{Event}</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">void - Doesn't return anything.</div>
+</div>
+<div class="memberDetails" id="onMouseDown">
+<h3>onMouseDown<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function onMouseDown(Event:Event):void</code>
+<div class="memberDescription">This method gets called when the user presses the mouse button on any piece
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">Event:Event</td>
+<td class="last">object passed by the mouse event</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">void - Doesn't return anything.</div>
+</div>
+<div class="memberDetails last" id="onMouseUp">
+<h3>onMouseUp<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function onMouseUp(Event:Event):void</code>
+<div class="memberDescription">This method gets called when the user releases the mouse button on any piece
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">Event:Event</td>
+<td class="last">object passed by the mouse event</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">void - Doesn't return anything.</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

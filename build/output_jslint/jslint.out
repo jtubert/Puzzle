@@ -1,0 +1,22 @@
+/Applications/MAMP/htdocs/Puzzle_ongithub/Puzzle/js/Puzzle.js:110:5: Expected an assignment or function call and instead saw an expression.
+			img.width;
+    ^
+/Applications/MAMP/htdocs/Puzzle_ongithub/Puzzle/js/Puzzle.js:111:5: Expected an assignment or function call and instead saw an expression.
+			img.height;	
+    ^
+/Applications/MAMP/htdocs/Puzzle_ongithub/Puzzle/js/Puzzle.js:545:60: Expected '!==' and instead saw '!='.
+			var testX = ($("#piece" + i).css("left").replace("px", "") != pieceArr["piece" + i].startingX);
+                                                           ^
+/Applications/MAMP/htdocs/Puzzle_ongithub/Puzzle/js/Puzzle.js:546:59: Expected '!==' and instead saw '!='.
+			var testY = ($("#piece" + i).css("top").replace("px", "") != pieceArr["piece" + i].startingY);
+                                                          ^
+/Applications/MAMP/htdocs/Puzzle_ongithub/Puzzle/js/Puzzle.js:655:33: Missing radix parameter.
+		for (j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+                                ^
+/Applications/MAMP/htdocs/Puzzle_ongithub/Puzzle/js/Puzzle.js:655:96: Expected '{' and instead saw ';'.
+		for (j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+                                                                                               ^
+/Applications/MAMP/htdocs/Puzzle_ongithub/Puzzle/js/Puzzle.js:655:96: Unexpected ';'.
+		for (j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+                                                                                               ^
+/Applications/MAMP/htdocs/Puzzle_ongithub/Puzzle/js/Puzzle.js:656:1: Cannot read property "disrupt" from undefined
