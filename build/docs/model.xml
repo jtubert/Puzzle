@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<model>
+<namespace fullname="com" name="com">
+<namespace fullname="com.jtubert" name="jtubert">
+<description>This is a namespace.</description>
+<class fullname="com.jtubert.Puzzle" name="Puzzle" summary="Some function.">
+<description>Some function.
+</description>
+<return type="Puzzle">
+<description>Self.</description>
+</return>
+<members>
+<method name="init" summary="This is the init method of the puzzle">
+<description>This is the init method of the puzzle
+</description>
+<param name="url" type="String">
+<description>Url of image to be used for the puzzle.</description>
+</param>
+<param name="_usePhpProxy" type="Boolean">
+<description>If set to true the image will be load thru a proxy, if set to false it uses getimagedata instead of the proxy.</description>
+</param>
+<return type="void">
+<description>Doesn't return anything.</description>
+</return>
+</method>
+<method name="onDropFromDesktop" summary="onDropFromDesktop">
+<description>onDropFromDesktop
+</description>
+<param name="" type="Object">
+<description>{Event}</description>
+</param>
+<return type="void">
+<description>Doesn't return anything.</description>
+</return>
+</method>
+<method name="dragEnter" summary="dragEnter">
+<description>dragEnter
+</description>
+<param name="" type="Object">
+<description>{Event}</description>
+</param>
+<return type="void">
+<description>Doesn't return anything.</description>
+</return>
+</method>
+<method name="dragExit" summary="dragExit">
+<description>dragExit
+</description>
+<param name="" type="Object">
+<description>{Event}</description>
+</param>
+<return type="void">
+<description>Doesn't return anything.</description>
+</return>
+</method>
+<method name="dragOver" summary="dragOver">
+<description>dragOver
+</description>
+<param name="" type="Object">
+<description>{Event}</description>
+</param>
+<return type="void">
+<description>Doesn't return anything.</description>
+</return>
+</method>
+<method name="loadImage" summary="This method loads the image and calls the createPuzzle method">
+<description>This method loads the image and calls the createPuzzle method
+</description>
+<param name="url" type="String">
+<description>Url of image to be used for the puzzle.</description>
+</param>
+<return type="void">
+<description>Doesn't return anything.</description>
+</return>
+</method>
+<method name="checkTime" summary="This method shows the timer and when it gets to zero it finishes the game">
+<description>This method shows the timer and when it gets to zero it finishes the game
+</description>
+<return type="void">
+<description>Doesn't return anything.</description>
+</return>
+</method>
+<method name="createPuzzle" summary="This method draws the puzzle">
+<description>This method draws the puzzle
+</description>
+<param name="img" type="Image">
+<description>Image object to be used in the puzzle</description>
+</param>
+<return type="void">
+<description>Doesn't return anything.</description>
+</return>
+</method>
+<method name="centerPuzzle" summary="This method centers the puzzle in screen using css">
+<description>This method centers the puzzle in screen using css
+</description>
+<param name="Width" type="int">
+<description>of the puzzle in pixels</description>
+</param>
+<return type="void">
+<description>Doesn't return anything.</description>
+</return>
+</method>
+<method name="onMouseDown" summary="This method gets called when the user presses the mouse button on any piece">
+<description>This method gets called when the user presses the mouse button on any piece
+</description>
+<param name="Event" type="Event">
+<description>object passed by the mouse event</description>
+</param>
+<return type="void">
+<description>Doesn't return anything.</description>
+</return>
+</method>
+<method name="onMouseUp" summary="This method gets called when the user releases the mouse button on any piece">
+<description>This method gets called when the user releases the mouse button on any piece
+</description>
+<param name="Event" type="Event">
+<description>object passed by the mouse event</description>
+</param>
+<return type="void">
+<description>Doesn't return anything.</description>
+</return>
+</method>
+</members>
+</class>
+</namespace>
+</namespace>
+</model>

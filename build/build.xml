@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Puzzle build" default="build" basedir=".\">
+	<!-- #######################################################################-->
+	<!-- SETUP FILES-->
+	<!-- #######################################################################-->	
+	<path id="js-build-tasks.classpath">
+		<pathelement location="."/>
+
+		<fileset dir=".\lib">
+			<include name="js_build_tools.jar"/>
+			<include name="ant.jar"/>
+			<include name="ant-contrib.jar"/>
+			<include name="matra-0.8.2b.jar"/>
+			<include name="yuicompressor-2.4.2.jar"/>
+			
+			<exclude name="jslint4java-1.4.7.jar"/>
+			<exclude name="rhino.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="svn.classpath">
+	    <fileset dir=".\lib\svn">
+	        <include name="**/*.jar"/>
+	    </fileset>
+	</path>
+
+	<!-- Register new jslint ant tasks -->
+	<taskdef name="jslint" classname="com.googlecode.jslint4java.ant.JSLintTask" classpath=".\lib\jslint4java-1.4.7.jar" />
+	
+	<!-- Register new svn ant tasks -->
+	<taskdef name="svn" classname="org.tigris.subversion.svnant.SvnTask" classpathref="svn.classpath" />
+	
+	<!-- Register new js-build-tools ant tasks -->
+	<taskdef name="preprocess" classname="com.moxiecode.ant.tasks.PreProcessTask" classpathref="js-build-tasks.classpath" loaderref="js-build-tasks.classpath.loader" />
+	<taskdef name="moxiedoc" classname="com.moxiecode.ant.tasks.MoxieDocTask" classpathref="tasks.classpath" loaderref="js-build-tasks.classpath.loader" />	
+	<!-- #######################################################################-->
+
+	<!-- Setup default build target -->
+	<target name="build">
+		
+		<delete file="../js/puzzle.combined.js" />
+						
+		<echo message="Process pre proccesing instuctions like #if/#endif etc" />
+		<preprocess infile="../js/Puzzle.js" outfile="../js/puzzle.preprocessed.js" defines="debug" />	
+		
+		<echo message="Compressing JS..." />		
+		<antcall target="minify_js"/>
+		
+		<echo message="Compressing CSS..." />		
+		<antcall target="minify_css"/>	
+		
+		<echo message="deleting temp file..." />
+		<delete file="../js/puzzle.preprocessed.js" />	
+		
+		<!-- Concat multuple JS files together -->
+		<echo message="concat files" />
+		<concat destfile="../js/puzzle.combined.js">
+			<fileset dir="../js" includes="jquery-1.4.4.min.js" />
+			<fileset dir="../js" includes="jquery-ui-1.8.10.custom.min.js" />
+			<fileset dir="../js" includes="jquery.getimagedata.min.js" />
+			<fileset dir="../js" includes="puzzle.min.js" />
+		</concat>
+		
+		<delete file="../js/puzzle.min.js" />		
+		
+		<antcall target="csslint" />
+		<antcall target="moxiedoc" />
+		<antcall target="jslint" />
+	</target>
+	
+	<!-- http://code.google.com/p/jslint4java/ -->	
+	<target name="jslint">
+		<echo message="jslint" />
+		<jslint>
+			<formatter type="plain" destfile="output_jslint/jslint.out" />
+		    <fileset dir="../js" includes="Puzzle.js" excludes="**/*.min.js" />
+		</jslint>
+	</target>
+	
+	<target name="minify_js">
+	    <apply executable="java" parallel="false">
+	        <fileset dir="../js" includes="*.js" excludes="**/*.min.js,**/*.preprocessed.js" />
+	        <arg line="-jar"/>
+	        <arg path="./lib/yuicompressor.jar"/>
+	        <srcfile/>
+	        <arg line="-o"/>
+	        <mapper type="glob" from="*.js" to="../js/*.min.js"/>
+	        <targetfile/>
+	    </apply>
+	</target>
+	
+	<target name="minify_css">
+	    <apply executable="java" parallel="false">
+	        <fileset dir="../css" includes="*.css" excludes="**/*.min.css" />
+	        <arg line="-jar"/>
+	        <arg path="./lib/yuicompressor.jar"/>
+	        <srcfile/>
+	        <arg line="-o"/>
+	        <mapper type="glob" from="*.css" to="../css/*.min.css"/>
+	        <targetfile/>
+	    </apply>
+	</target>
+	
+		
+	
+	<target name="csslint">
+		 <echo>csslint</echo>
+        <apply dir="." executable="java" parallel="false" failonerror="true">
+            <fileset dir="../css/">
+                <include name="*.css"/>
+                <exclude name="*.min.css"/>                
+            </fileset> 
+            <arg value="-jar" />
+            <arg path="./lib/rhino.jar" />
+            <arg path="./lib/csslint-rhino.js" />
+            <srcfile/>
+            <arg value="" />
+        </apply>
+       <echo>csslint done</echo>
+    </target>
+
+	<target name="deploy">
+		<apply executable="scp" failonerror="true" parallel="true">
+		    <fileset dir="../" includes="**/*.js"/>
+		    <srcfile/>
+		    <arg line="ftp://www.actionscript2objectivec.com:/furniture/"/>
+		</apply>
+	</target>
+	
+	<!-- Generate JS documentation -->
+	<target name="moxiedoc" depends="" description="Generates HTML documentation out of js source">
+		<moxiedoc outdir="docs" msintellisense="docs/model.js" eventclass="tinymce.util.Dispatcher" templatedir="./templates" title="com.jtubert API">
+			<fileset dir="../js">
+				<include name="Puzzle.js" /> 
+			</fileset>
+		</moxiedoc>
+	</target>
+	
+	<target name="zip_deploy">
+		<zip destfile="zip_deploy.zip" basedir=".." includes="**/*" update="true"/>
+	</target>
+	
+	<target name="svn_update">
+		<!-- username="" password="" -->
+		
+		<svn javahl="false"> 
+			<!--checkout url="http://jtubert.unfuddle.com/svn/jtubert_labs/" destPath="workingcopy" /-->
+			<!--delete url="" message="Delete file before copying new one"/-->
+			<update dir="workingcopy"/>
+		</svn>
+	</target>
+	
+	<target name="clean">
+        <delete file="../js/puzzle.preprocessed.js" />
+    </target>
+	
+</project>
