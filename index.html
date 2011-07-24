@@ -38,6 +38,7 @@
  <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
 
 	<script src="js/jquery-1.4.4.min.js"></script>
+<script src="js/jquery.getimagedata.min.js"></script>
 	<script src="js/jquery-ui-1.8.10.custom.min.js"></script>
 	<script src="js/Puzzle.js"></script>
 
@@ -65,11 +66,8 @@ function BlockMove(event) {
 		var puzzle;
 		$(document).ready (function () {		
 			puzzle = com.jtubert.Puzzle();
-<<<<<<< HEAD
-			puzzle.init("img/bob.jpg");
-=======
-			puzzle.init("img/flower.jpg");
->>>>>>> master
+			puzzle.init("img/bob.jpg",false);
+
 			//document.location.href
 			//puzzle.init("http://labs.jtubert.com/canvas/puzzle/img/flower.jpg");
 		});
