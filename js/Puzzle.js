@@ -278,6 +278,9 @@ com.jtubert.Puzzle = function() {
 
 
             layer = document.getElementById("piece" + i);
+			if(G_vmlCanvasManager){
+				G_vmlCanvasManager.initElement(layer);
+			}
             ctx = layer.getContext("2d");
 
 
@@ -677,6 +680,10 @@ com.jtubert.Puzzle.canvasManager = function() {
 
     self.draw = function(id, x, y, width, height, color) {
         var layer = document.getElementById(id);
+		if(G_vmlCanvasManager){
+			G_vmlCanvasManager.initElement(layer);
+		}
+		
         var ctx = layer.getContext("2d");
 
         //ctx.canvas.width  = width;
