@@ -236,7 +236,7 @@ com.jtubert.Puzzle = function() {
         var gridW = Math.min(imageW - 5, window.innerHeight - 90);
 
 
-
+		var G_vmlCanvasManager; // so non-IE won't freak out in canvasInit
         var column = Math.ceil(Math.sqrt(totalPieces));
         var scale = Math.floor((gridW - (space * (column - 1))) / column);
         var x = 0;
@@ -278,7 +278,7 @@ com.jtubert.Puzzle = function() {
 
 
             layer = document.getElementById("piece" + i);
-			if(G_vmlCanvasManager){
+			if(G_vmlCanvasManager != undefined){
 				G_vmlCanvasManager.initElement(layer);
 			}
             ctx = layer.getContext("2d");
@@ -664,6 +664,7 @@ com.jtubert.Puzzle.Utils = new function() {
 com.jtubert.Puzzle.canvasManager = function() {
     var self = this;
     var canvasWrapper;
+	var G_vmlCanvasManager; // so non-IE won't freak out in canvasInit
     var viewport = {
         height: 0,
         width: 0
@@ -680,7 +681,7 @@ com.jtubert.Puzzle.canvasManager = function() {
 
     self.draw = function(id, x, y, width, height, color) {
         var layer = document.getElementById(id);
-		if(G_vmlCanvasManager){
+		if(G_vmlCanvasManager != undefined){
 			G_vmlCanvasManager.initElement(layer);
 		}
 		
