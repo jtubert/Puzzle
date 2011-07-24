@@ -1,3 +1,10 @@
+/* *********************************************************************
+ *
+ * This demo was developed by John Tubert.
+ * This was a port from a flash game I developed a few years back.
+ *
+ * ********************************************************************/
+
 html, body, div, h1, h2, h3, h4, h5, h6, ul, dl, li, dt, dd, p, blockquote, pre, form, fieldset, table, th, td { margin: 0; padding: 0; } object, embed, a { outline:0 } a img, fieldset{ border:0; }
 article,aside,figure,footer,header,hgroup,menu,nav,section{display:block}
 

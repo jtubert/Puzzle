@@ -1,3 +1,10 @@
+////////////////////////////////////////////////////////////////////////
+//
+// This demo was developed by John Tubert.
+// This was a port from a flash game I developed a few years back.
+//
+////////////////////////////////////////////////////////////////////////
+
 /*! 
 CSSLint
 Copyright (c) 2011 Nicole Sullivan and Nicholas C. Zakas. All rights reserved.

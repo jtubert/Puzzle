@@ -1,3 +1,10 @@
+////////////////////////////////////////////////////////////////////////
+//
+// This demo was developed by John Tubert.
+// This was a port from a flash game I developed a few years back.
+//
+////////////////////////////////////////////////////////////////////////
+
 /**
  * This is a namespace.
  *
@@ -279,6 +286,7 @@ com.jtubert.Puzzle = function() {
 
             layer = document.getElementById("piece" + i);
 			if(G_vmlCanvasManager != undefined){
+				//http://code.google.com/p/explorercanvas/
 				G_vmlCanvasManager.initElement(layer);
 			}
             ctx = layer.getContext("2d");
@@ -682,6 +690,7 @@ com.jtubert.Puzzle.canvasManager = function() {
     self.draw = function(id, x, y, width, height, color) {
         var layer = document.getElementById(id);
 		if(G_vmlCanvasManager != undefined){
+			//http://code.google.com/p/explorercanvas/
 			G_vmlCanvasManager.initElement(layer);
 		}
 		

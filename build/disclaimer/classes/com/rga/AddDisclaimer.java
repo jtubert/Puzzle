@@ -43,47 +43,31 @@ public class AddDisclaimer extends Task{
 	public void execute()
 	{
 		String HTML_disclaimerText = "<!--\n";
-		HTML_disclaimerText+="    This software is intended to be used for informational purposes to\n";
-		HTML_disclaimerText+="    illustrate user experience, visual design, layout, transitions, and\n"; 
-		HTML_disclaimerText+="    other creative requirements. This software may not be optimized for\n"; 
-		HTML_disclaimerText+="    performance, scalability, security, interoperability and reuse, and\n"; 
-		HTML_disclaimerText+="    is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS\n";
-		HTML_disclaimerText+="    OF ANY KIND, either express or implied.\n"; 
+		HTML_disclaimerText+="    This demo was developed by John Tubert.\n";
+		HTML_disclaimerText+="    This was a port from a flash game I developed a few years back.\n"; 
 		HTML_disclaimerText+="-->\n\n";
 		
 		//Stars (CSS, C#, Java, etc)
 		String CSS_disclaimerText = "/* *********************************************************************\n";
 		CSS_disclaimerText+=" *\n";
-		CSS_disclaimerText+=" * This software is intended to be used for informational purposes to\n";
-		CSS_disclaimerText+=" * illustrate user experience, visual design, layout, transitions, and\n"; 
-		CSS_disclaimerText+=" * other creative requirements. This software may not be optimized for\n"; 
-		CSS_disclaimerText+=" * performance, scalability, security, interoperability and reuse, and\n"; 
-		CSS_disclaimerText+=" * is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS\n";
-		CSS_disclaimerText+=" * OF ANY KIND, either express or implied.\n"; 
+		CSS_disclaimerText+=" * This demo was developed by John Tubert.\n";
+		CSS_disclaimerText+=" * This was a port from a flash game I developed a few years back.\n"; 
 		CSS_disclaimerText+=" *\n";
 		CSS_disclaimerText+=" * ********************************************************************/\n\n";
 		
 		//Slashes (JS, C#, Java, etc)
 		String JS_disclaimerText = "////////////////////////////////////////////////////////////////////////\n";
 		JS_disclaimerText+="//\n";
-		JS_disclaimerText+="// This software is intended to be used for informational purposes to\n";
-		JS_disclaimerText+="// illustrate user experience, visual design, layout, transitions, and\n"; 
-		JS_disclaimerText+="// other creative requirements. This software may not be optimized for\n"; 
-		JS_disclaimerText+="// performance, scalability, security, interoperability and reuse, and\n";
-		JS_disclaimerText+="// is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS\n";
-		JS_disclaimerText+="// OF ANY KIND, either express or implied.\n"; 
+		JS_disclaimerText+="// This demo was developed by John Tubert.\n";
+		JS_disclaimerText+="// This was a port from a flash game I developed a few years back.\n"; 
 		JS_disclaimerText+="//\n";
 		JS_disclaimerText+="////////////////////////////////////////////////////////////////////////\n\n";
 		
 		//Hashes/Pounds (Python)
 		String Python_disclaimerText = "# ######################################################################\n";
 		Python_disclaimerText+="#\n";
-		Python_disclaimerText+="# This software is intended to be used for informational purposes to\n";
-		Python_disclaimerText+="# illustrate user experience, visual design, layout, transitions, and \n";
-		Python_disclaimerText+="# other creative requirements. This software may not be optimized for\n"; 
-		Python_disclaimerText+="# performance, scalability, security, interoperability and reuse, and\n"; 
-		Python_disclaimerText+="# is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS\n";
-		Python_disclaimerText+="# OF ANY KIND, either express or implied.\n"; 
+		Python_disclaimerText+="# This demo was developed by John Tubert.\n";
+		Python_disclaimerText+="# This was a port from a flash game I developed a few years back. \n";
 		Python_disclaimerText+="#\n";
 		Python_disclaimerText+="# ######################################################################\n\n";
 		
