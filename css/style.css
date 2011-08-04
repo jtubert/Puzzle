@@ -25,3 +25,8 @@ body {
 	left: 50%;
 	width: 500px;
 }
+.license{
+     text-align: center;
+     position: absolute;
+     bottom: 20px;
+}

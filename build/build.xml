@@ -34,13 +34,15 @@
 	<taskdef name="preprocess" classname="com.moxiecode.ant.tasks.PreProcessTask" classpathref="js-build-tasks.classpath" loaderref="js-build-tasks.classpath.loader" />
 	<taskdef name="moxiedoc" classname="com.moxiecode.ant.tasks.MoxieDocTask" classpathref="tasks.classpath" loaderref="js-build-tasks.classpath.loader" />	
 	 <!--Register new AddDisclaimer ant tasks-->
-	<taskdef resource="AddDisclaimer.properties" classpath="disclaimer\AddDisclaimer.jar"/>
+	<!--taskdef resource="AddDisclaimer.properties" classpath=".\disclaimer\AddDisclaimer.jar"/-->
+	<taskdef name="AddDisclaimer" classname="com.rga.AddDisclaimer" classpath=".\disclaimer\AddDisclaimer.jar"/>
 	<!-- #######################################################################-->
 
 	<!-- Setup default build target -->
 	<target name="build">
+		<antcall target="js-tests-rhino" />
 		
-		
+		<!--
 		<delete file="../js/puzzle.combined.js" />
 		
 		<AddDisclaimer path="../"/>
@@ -52,12 +54,14 @@
 		<antcall target="minify_js"/>
 		
 		<echo message="Compressing CSS..." />		
-		<antcall target="minify_css"/>	
+		<antcall target="minify_css"/>		
+			
+		<antcall target="minify_html"/>
 		
 		<echo message="deleting temp file..." />
 		<delete file="../js/puzzle.preprocessed.js" />	
 		
-		<!-- Concat multuple JS files together -->
+		
 		<echo message="concat files" />
 		<concat destfile="../js/puzzle.combined.js">
 			<fileset dir="../js" includes="jquery-1.4.4.min.js" />
@@ -71,7 +75,37 @@
 		<antcall target="csslint" />
 		<antcall target="moxiedoc" />
 		<antcall target="jslint" />
+		
+		-->
 	</target>
+	
+	<!-- http://docs.jquery.com/Qunit -->
+	<target name="js-tests-rhino">		
+        <apply dir="." executable="java" parallel="false" failonerror="true">
+            <fileset dir="../js_tests/lib/">
+                <include name="envjs_init.js"/>               
+            </fileset> 
+            <arg value="-jar" />
+            <arg path="../js_tests/lib/rhino.jar" />
+       </apply>       
+	</target>
+	
+	<target name="buildJar">		
+		<javac srcdir="./disclaimer/classes/com/rga" destdir="./disclaimer/classes"/>				
+		<jar destfile="./disclaimer/AddDisclaimer.jar" basedir="./disclaimer/classes"/>
+	</target>
+	
+	<!--target name="js-tests-phantomjs">
+		<apply executable="../js_tests/lib/phantomjs.app/Contents/MacOS/phantomjs" failonerror="true">
+			<arg value="../js_tests/lib/phantomjs_init.js"/>
+			<arg value="../js_tests/lib/qunit.js" />
+			<srcfile/>
+			<fileset dir="../js_tests/">
+				<include name="Puzzle-tests.js" />
+			</fileset>
+		</apply>
+	</target-->
+	
 	
 	<!-- http://code.google.com/p/jslint4java/ -->	
 	<target name="jslint">
@@ -80,6 +114,23 @@
 			<formatter type="plain" destfile="output_jslint/jslint.out" />
 		    <fileset dir="../js" includes="Puzzle.js" excludes="**/*.min.js" />
 		</jslint>
+	</target>
+	
+	<!-- http://code.google.com/p/htmlcompressor/ -->
+	
+	<target name="minify_html">
+		<apply executable="java" parallel="false">
+			<fileset dir="../" includes="*.html">
+				<exclude name="*.min.html" />
+			</fileset>
+			<arg value="-jar"/>
+			<arg path="./lib/htmlcompressor-1.4.2.jar"/>
+			<arg line="--type html"/>			
+			<srcfile/>
+			<arg value="-o"/>
+			<mapper type="glob" from="*.html" to="../*.min.html"/>
+			<targetfile/>
+		</apply>
 	</target>
 	
 	<target name="minify_js">
