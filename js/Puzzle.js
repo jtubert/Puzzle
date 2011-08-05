@@ -316,7 +316,7 @@ com.jtubert.Puzzle = function() {
                 var r = 255; //Math.round(Math.random()*100);
                 var g = 255; //Math.round(Math.random()*100);
                 var b = 255; //Math.round(Math.random()*100);        
-                canvasManager.draw("piece" + i, 0, 0, scale, scale, 'rgba(' + r + ',' + g + ',' + b + ',.5)');
+                canvasManager.draw("piece" + i, 0, 0, scale, scaleY, 'rgba(' + r + ',' + g + ',' + b + ',.5)');
 
                 ctx.fillStyle = 'rgba(0,0,0,1)';
                 ctx.textAlign = "center";
