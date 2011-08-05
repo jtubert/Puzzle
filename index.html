@@ -43,15 +43,12 @@
  <!-- Choose a 57x57 image for the icon -->
  <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
 	<link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
-	<script src="js/jquery-1.4.4.min.js"></script>
-	
+	<script src="js/jquery-1.4.4.min.js"></script>	
 	<!--http://code.google.com/p/explorercanvas/-->
-	<!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
-	
+	<!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->	
 	<script src="js/jquery.getimagedata.min.js"></script>
 	<script src="js/jquery-ui-1.8.10.custom.min.js"></script>
 	<script src="js/Puzzle.js"></script>
-
 <style>
 body {
  margin: 0px ;
@@ -77,7 +74,6 @@ function BlockMove(event) {
 		$(document).ready (function () {		
 			puzzle = com.jtubert.Puzzle();
 			puzzle.init("img/bob.jpg",false);
-
 			//document.location.href
 			//puzzle.init("http://labs.jtubert.com/canvas/puzzle/img/flower.jpg");
 		});
@@ -88,12 +84,11 @@ function BlockMove(event) {
 		<div id="secondsLeft" style="color:grey">
 			<h1>0 seconds left</h1>
 		</div>
-		<div class="license">
-			<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">CanvasPuzzle</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://about.me/jtubert" property="cc:attributionName" rel="cc:attributionURL">John Tubert</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.
+		<div id="license-container">
+			<div id="license">
+				<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">CanvasPuzzle</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://about.me/jtubert" property="cc:attributionName" rel="cc:attributionURL">John Tubert</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.
+			</div>
 		</div>
 	</center>
-	
-	
-	
 </body>
 </html>
