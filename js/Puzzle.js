@@ -440,13 +440,14 @@ com.jtubert.Puzzle = function() {
             $("#holder").css("top", "0%");
             ypos = w + 10;
         }
-
+		
+		
         //$("#secondsLeft").css("margin-top",10);
-        $("#secondsLeft").css("top", ypos);
+        $("#secondsLeft").css("top", 10);
         $("#secondsLeft").css("width", w + "px");
         $("#secondsLeft").css("margin-left", -(w / 2));
         $("#secondsLeft").css("left", "50%");
-
+		
         //$("#secondsLeft").css("border","1px solid");
     };
 	
