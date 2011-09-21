@@ -18,6 +18,7 @@
 	
 		<script src="https://raw.github.com/jtubert/Puzzle/master/googleplus/app.js"></script>
 
+		<h1><img src="//plushangoutstarter.appspot.com/static/hangouts-logo.png" alt="Google+ Hangouts Logo" height="50" width="50">Starter App</h1>
 		<div style="float: left; padding: 0px 20px; border-right: 1px solid #EEE">
 		  <p>Collaborate with your friends to count to a big number!</p>
 		  <dl>
