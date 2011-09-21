@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="hangout test">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <script src="//hangoutsapi.appspot.com/static/hangout.js"></script>
+      <script>
+		var onStateChange = function(adds, removes, state, metadata) {
+		  console.log(adds, removes, state, metadata);
+		  state_ = state;
+		  metadata_ = metadata;
+		};
+		gapi.hangout.addStateChangedListener(onStateChange);
+
+		var onParticipantsChange = function(participants) {
+		  participants_ = participants;
+		  console.log(participants);
+		};
+		gapi.hangout.addParticipantsListener(onParticipantsChange);
+		
+		gapi.hangout.addApiReadyListener(function(){alert("app");});
+	</script>
+    ]]>
+  </Content>
+</Module>
