@@ -224,7 +224,7 @@ com.jtubert.Puzzle = function() {
 
         if (!debug) {
             currentTime = (level + 1) * 10;
-            timer = window.setInterval(self.checkTime, 1000);
+            //timer = window.setInterval(self.checkTime, 1000);
         } else {
             $("#secondsLeft h1").html("---DEBUG MODE---");
         }
@@ -284,8 +284,8 @@ com.jtubert.Puzzle = function() {
             layer = document.getElementById("piece" + i);
             ctx = layer.getContext("2d");
 
-
-
+			
+			
             //draw white background for images that are not square
             canvasManager.draw("piece" + i, 0, 0, scale, scale, 'rgba(255,255,255,1)');
 
@@ -321,52 +321,26 @@ com.jtubert.Puzzle = function() {
 			items[i].y = y;
 			items[i].row = Math.floor(i/column);
 			items[i].col = i-(column*items[i].row);
-
-			/*
-            var obj = {};
-            obj.startingIndex = i;
-            obj.currentIndex = i;
-            obj.startingX = x;
-            obj.startingY = y;
-            obj.scale = scale;
-            obj.currentX = x;
-            obj.currentY = y;
-			obj.row = Math.floor(i/column);
-			obj.col = i-(column*obj.row);
-			obj.startingRow = Math.floor(i/column);
-			obj.startingCol = i-(column*obj.row);
-            pieceArr["piece" + i] = obj;
 			
-			rowsAndCols[obj.row+"_"+obj.col] = i;
-			startingRowsAndCols[obj.row+"_"+obj.col] = i;
-			*/
-			
-			//var row = Math.floor(pos/column);
-			//var col = pos-(column*row);	
-
-            
-            if (!IsiPhoneOS) {
-                layer.addEventListener('mouseover', self.onMouseOver, false);
-                layer.addEventListener('mouseout', self.onMouseOut, false);
-				layer.addEventListener('mouseup', self.onMouseUp, false);
-            }
-
 			
 			removedPiece = 5;
 
 			if (i == removedPiece) {
-	            var r = 255; 
-	            var g = 0; 
-	            var b = 0;     
+	            var r = 255;	 
+	            var g = 255; 
+	            var b = 255;     
 	            canvasManager.draw("piece" + i, 0, 0, scale, scale, 'rgba(' + r + ',' + g + ',' + b + ',1)');
-	            ctx.fillStyle = 'rgba(0,0,0,1)';            
-	        }
+	            ctx.fillStyle = 'rgba(0,0,0,1)';
+				//move it to the back
+	            $("#piece"+i).css("z-index",-1);
+	        }else{
+				if (!IsiPhoneOS) {
+	                layer.addEventListener('mouseover', self.onMouseOver, false);
+	                layer.addEventListener('mouseout', self.onMouseOut, false);
+					layer.addEventListener('mouseup', self.onMouseUp, false);
+	            }
+			}			
 		}
-
-        
-	
-
-
 		/*
         //$("canvas").css("border","1px solid");
 
@@ -422,6 +396,7 @@ com.jtubert.Puzzle = function() {
 	 * @return {void} Doesn't return anything.
 	 */
     self.centerPuzzle = function(w) {
+		$("#holder").css("background", "#FFFFFF");
         $("#holder").css("position", "absolute");
         $("#holder").css("margin-left", -(w / 2));
         $("#holder").css("margin-top", -(w / 2));
@@ -440,9 +415,9 @@ com.jtubert.Puzzle = function() {
 
 
         if (ypos > window.innerHeight) {
-            $("#holder").css("margin-top", 10);
+            $("#holder").css("margin-top", 0);
             $("#holder").css("top", "0%");
-            ypos = w + 10;
+            ypos = w + 0;
         }
 
         //$("#secondsLeft").css("margin-top",10);
@@ -479,6 +454,13 @@ com.jtubert.Puzzle = function() {
 		return temp;
 	}
 	
+	/**
+	 * This method returns an array of items on a particular column
+	 *
+	 * @method getItemsInRow
+	 * @param {int} row
+	 * @return {Array} temp
+	 */
 	self.getItemsInRow = function(row){
 		var temp = [];
 		
@@ -497,13 +479,29 @@ com.jtubert.Puzzle = function() {
 	}
 	
 	
-	self.moveTo = function(from,to){
+	self.moveTo = function(from,to,animateBool){
 		
-		//console.log(from,to,items[to].y);
+		if(animateBool){
+			$('#piece'+from).animate({
+			    left: items[to].x,
+			    top: items[to].y
+			  }, {
+			    duration: 200,
+			    specialEasing: {
+			      left: 'linear',
+			      top: 'linear'
+			    },
+			    complete: function() {
+			      console.log("done");
+			    }
+			  });
+		}else{
+			//move canvas element to position
+			$("#piece" + from).css("left", items[to].x);
+		    $("#piece" + from).css("top", items[to].y);
+		}
 				
-		//move canvas element to position
-		$("#piece" + from).css("left", items[to].x);
-	    $("#piece" + from).css("top", items[to].y);
+		
 		//change pos value to new value
 		$("#piece"+from).attr('pos',to);
 	}
@@ -537,110 +535,60 @@ com.jtubert.Puzzle = function() {
 		var removePos = Number($("#piece"+removedPiece).attr('pos'));		
 		
 		
-		if(items[removePos].row == items[pos].row){
-					
-			if(removePos > pos){
-				
-				var itemsInRow = self.getItemsInRow(items[pos].row);
-				
-				//console.log(itemsInRow);
-				
-				
-				for(var i=0;i<itemsInRow.length;i++){
-					
-					var itemCol = items[itemsInRow[i]].col;	
-					
+		if(items[removePos].row == items[pos].row){					
+			if(removePos > pos){				
+				var itemsInRow = self.getItemsInRow(items[pos].row);				
+				for(var i=0;i<itemsInRow.length;i++){					
+					var p = $("#piece"+itemsInRow[i]).attr("pos");
+					var itemCol = items[p].col;					
 					if(items[removePos].col >= itemCol){						
-						if(itemCol >= items[pos].col){
-							
-							var p = $("#piece"+itemsInRow[i]).attr("pos");
-							
-							//console.log(itemsInRow[i],p+1);
-							
-							self.moveTo(itemsInRow[i],Number(p)+1);
+						if(itemCol >= items[pos].col){							
+							var next = Number(p)+1;							
+							self.moveTo(itemsInRow[i],next,true);
 						}
-
 					}
-					
 				}
-			}else{
-				
-				var itemsInRow = self.getItemsInRow(items[pos].row);
-				
-				//console.log(itemsInRow);
-				
-				
-				for(var i=0;i<itemsInRow.length;i++){
-					
-					var itemCol = items[itemsInRow[i]].col;	
-					
+			}else{				
+				var itemsInRow = self.getItemsInRow(items[pos].row);					
+				for(var i=0;i<itemsInRow.length;i++){					
+					var p = $("#piece"+itemsInRow[i]).attr("pos");
+					var itemCol = items[p].col;						
 					if(items[removePos].col <= itemCol){						
-						if(itemCol <= items[pos].col){
-							
-							var p = $("#piece"+itemsInRow[i]).attr("pos");
-							
-							//console.log(itemsInRow[i],p-1);
-							
-							self.moveTo(itemsInRow[i],p-1);
+						if(itemCol <= items[pos].col){							
+							var next = Number(p)-1;							
+							self.moveTo(itemsInRow[i],next,true);
 						}
 					}
 				}
-			}
-			
-			//console.log(removedPiece);
-			
+			}			
 			$("#piece" + removedPiece).css("left", items[pos].x);
 		    $("#piece" + removedPiece).css("top", items[pos].y);	
 			$("#piece"+removedPiece).attr('pos',pos);
 			
 		}else if(items[removePos].col == items[pos].col){
-			if(items[removePos].row > items[pos].row){
-				
-				var itemsInCol = self.getItemsInCol(items[pos].col);
-				
-				for(var i=0;i<itemsInCol.length;i++){
-					
+			if(items[removePos].row > items[pos].row){				
+				var itemsInCol = self.getItemsInCol(items[pos].col);				
+				for(var i=0;i<itemsInCol.length;i++){					
 					var p = $("#piece"+itemsInCol[i]).attr("pos");
 					var itemRow = items[p].row;
-					//var itemRow = items[itemsInCol[i]].row;					
 					if(items[removePos].row > itemRow){						
-						if(itemRow >= items[pos].row){
-							
-							var next = Number(p)+Number(column);
-							
-							console.log("move col+: "+itemsInCol[i],next);
-							
-							self.moveTo(itemsInCol[i],next);
+						if(itemRow >= items[pos].row){							
+							var next = Number(p)+Number(column);							
+							//console.log("move col+: "+itemsInCol[i],next);							
+							self.moveTo(itemsInCol[i],next,true);
 						}
 					}
 				}				
-			}else{
-				
-				var itemsInCol = self.getItemsInCol(items[pos].col);
-				
-				//Remove row = 0
-				
-				
-				
-				
-				for(var i=0;i<itemsInCol.length;i++){
-					
+			}else{				
+				var itemsInCol = self.getItemsInCol(items[pos].col);				
+				for(var i=0;i<itemsInCol.length;i++){					
 					var p = $("#piece"+itemsInCol[i]).attr("pos");
-					var itemRow = items[p].row;	
-					
-					//console.log(p,itemRow);
-									
-					if(items[removePos].row < itemRow){
-						
-						
-												
-						if(itemRow <= items[pos].row){
-							
-							var next = p-column;
-							
-							console.log("move col-: "+itemsInCol[i],next);
-							
-							self.moveTo(itemsInCol[i],Number(next));
+					var itemRow = items[p].row;										
+					if(items[removePos].row < itemRow){												
+						if(itemRow <= items[pos].row){							
+							var next = p-column;							
+							//console.log("move col-: "+itemsInCol[i],next);							
+							self.moveTo(itemsInCol[i],Number(next),true);
 						}
 					}
 				}		
