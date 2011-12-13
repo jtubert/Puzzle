@@ -59,6 +59,8 @@ com.jtubert.Puzzle = function() {
             level = Number(com.jtubert.Puzzle.Utils.getUrlVars().level);
         }
 
+		console.log(com.jtubert.Puzzle.Utils.getUrlVars());
+
         if (com.jtubert.Puzzle.Utils.getUrlVars().url) {
             url = com.jtubert.Puzzle.Utils.getUrlVars().url;
         }
@@ -164,6 +166,8 @@ com.jtubert.Puzzle = function() {
 	 * @return {void} Doesn't return anything.
 	 */
     self.loadImage = function(url){
+		console.log(url);
+	
         if(!usePhpProxy && url.indexOf("http://") > -1){
             $.getImageData({
                 url: url,
@@ -323,7 +327,7 @@ com.jtubert.Puzzle = function() {
 			items[i].col = i-(column*items[i].row);
 			
 			
-			removedPiece = 5;
+			removedPiece = 2;
 
 			if (i == removedPiece) {
 	            var r = 255;	 

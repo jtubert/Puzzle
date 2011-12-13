@@ -39,7 +39,7 @@
 
 	<script src="js/jquery-1.4.4.min.js"></script>
 	<script src="js/jquery-ui-1.8.10.custom.min.js"></script>
-	<script src="js/Puzzle.js"></script>
+	<script src="js/Puzzle2.js"></script>
 
 <style>
 body {
@@ -78,7 +78,7 @@ function BlockMove(event) {
 		var puzzle;
 		$(document).ready (function () {		
 			puzzle = com.jtubert.Puzzle();
-			puzzle.init("img/flower.jpg",true);
+			puzzle.init("img/car.jpg",true);
 			//document.location.href
 			//puzzle.init("http://labs.jtubert.com/canvas/puzzle/img/flower.jpg");
 		});
@@ -86,9 +86,9 @@ function BlockMove(event) {
 
 	<center>
 		<div id="holder"></div>
-		<div id="secondsLeft" style="color:white">
+		<!--div id="secondsLeft" style="color:white">
 			<h1>0 seconds left</h1>
-		</div>
+		</div-->
 	</center>
 </body>
 </html>
