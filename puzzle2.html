@@ -39,6 +39,8 @@
 
 	<script src="js/jquery-1.4.4.min.js"></script>
 	<script src="js/jquery-ui-1.8.10.custom.min.js"></script>
+	<script src="js/jquery.easing.1.3.js"></script>
+	<script src="js/jquery.easing.compatibility.js"></script>
 	<script src="js/Puzzle2.js"></script>
 
 <style>
@@ -59,6 +61,22 @@ canvas{
                  rgba(0,0,0,0.4)
                  rgba(255,255,255,0.4);
 }
+
+#shuffling{	
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0,.5);
+    z-index: 9999999;
+    position: relative;
+	
+}
+
+#shuffling h1{
+	color:	#FFFFFF;	
+	width: 100%;
+    position: absolute;
+	top: 43%;
+}	
 
 
 
@@ -85,10 +103,10 @@ function BlockMove(event) {
 	</script>
 
 	<center>
-		<div id="holder"></div>
-		<!--div id="secondsLeft" style="color:white">
-			<h1>0 seconds left</h1>
-		</div-->
+		<div id="shuffling">
+			<h1>Shuffling...</h1>
+		</div>
+		<div id="holder"></div>		
 	</center>
 </body>
 </html>

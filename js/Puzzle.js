@@ -1,3 +1,10 @@
+////////////////////////////////////////////////////////////////////////
+//
+// This demo was developed by John Tubert.
+// This was a port from a flash game I developed a few years back.
+//
+////////////////////////////////////////////////////////////////////////
+
 /**
  * This is a namespace.
  *
@@ -30,11 +37,6 @@ com.jtubert.Puzzle = function() {
 	var usePhpProxy;
 	var canvasManager;
 	
-	//for multiplayer
-	var usersArray;
-	var currentPlayer = 1;
-	var currentPlayerID;
-	
 	/**
 	 * This is the init method of the puzzle
 	 *
@@ -44,7 +46,7 @@ com.jtubert.Puzzle = function() {
 	 * @return {void} Doesn't return anything.
 	 */
     self.init = function(url,_usePhpProxy) {
-		usePhpProxy = _usePhpProxy;
+		self.usePhpProxy = _usePhpProxy;
 	
         if (com.jtubert.Puzzle.Utils.getUrlVars().level) {
             level = Number(com.jtubert.Puzzle.Utils.getUrlVars().level);
@@ -73,11 +75,14 @@ com.jtubert.Puzzle = function() {
             document.addEventListener('touchend', self.onMobileEnd, false);
         }
 
-		var holder = document.getElementById("holder");		
-		holder.addEventListener("drop", self.onDropFromDesktop, false);
-		holder.addEventListener("dragenter", self.dragEnter, false);
-		holder.addEventListener("dragexit", self.dragExit, false);
-		holder.addEventListener("dragover", self.dragOver, false);
+		var holder = document.getElementById("holder");
+		if(holder){
+			holder.addEventListener("drop", self.onDropFromDesktop, false);
+			holder.addEventListener("dragenter", self.dragEnter, false);
+			holder.addEventListener("dragexit", self.dragExit, false);
+			holder.addEventListener("dragover", self.dragOver, false);
+		}		
+	
 		
 		
     };	
@@ -170,10 +175,12 @@ com.jtubert.Puzzle = function() {
 
                 },
                 error: function(xhr, text_status) {
-                    alert("Error!");
+                    console.log("Error!");
                 }
             });
         }else{
+			
+			
             img = new Image();
             img.onload = function(){
                 //img.width = 200;
@@ -201,7 +208,9 @@ com.jtubert.Puzzle = function() {
             $("#secondsLeft h1").html(currentTime + " seconds left");
         } else {
             window.clearInterval(timer);
-            alert("GAME OVER. Play again?");
+            
+			alert("GAME OVER. Play again?");
+			
             self.gotoNextLevel();
         }
 
@@ -215,7 +224,7 @@ com.jtubert.Puzzle = function() {
 	 * @return {void} Doesn't return anything.
 	 */
     self.createPuzzle = function(img) {
-        console.log("createPuzzle");
+        //console.log("createPuzzle");
 		
         puzzleStarts = new Date();
 
@@ -232,18 +241,24 @@ com.jtubert.Puzzle = function() {
 
 		var imageW = img.width || 400;
 
-        console.log("w: "+imageW);
+        
         var gridW = Math.min(imageW - 5, window.innerHeight - 90);
+		
+		console.log(imageW,gridW);
 
-
-
+		var G_vmlCanvasManager; // so non-IE won't freak out in canvasInit
         var column = Math.ceil(Math.sqrt(totalPieces));
         var scale = Math.floor((gridW - (space * (column - 1))) / column);
+		
+		var scaleY = Math.floor((img.height - (space * (column - 1))) / column);
+		
         var x = 0;
         var y = 0;
         var layer;
         var ctx;
         var startX = 0; //(window.innerWidth-gridW)/2;
+
+		//console.log("totalPieces: "+totalPieces);
 
         self.centerPuzzle(gridW);
 
@@ -258,7 +273,7 @@ com.jtubert.Puzzle = function() {
                 //$("#secondsLeft h1").append(i+": "+x+" ,"+y+" // ");
             } else {
                 x = startX + (((scale + space) * (i - (Math.floor(i / column)) * column)));
-                y = (((scale + space) * (Math.floor(i / column))));
+                y = (((scaleY + space) * (Math.floor(i / column))));
 
             }
 
@@ -268,34 +283,40 @@ com.jtubert.Puzzle = function() {
             var sourceX = x;
             var sourceY = y;
             var sourceWidth = scale;
-            var sourceHeight = scale;
+            var sourceHeight = scaleY;
             var destX = 0;
             var destY = 0;
             var destWidth = scale;
-            var destHeight = scale;
-            canvasManager.create(i, "piece" + i, scale, scale);
-
-
+            var destHeight = scaleY;
+            canvasManager.create(i, "piece" + i, scale, scaleY);
 
             layer = document.getElementById("piece" + i);
+			if(G_vmlCanvasManager != undefined){
+				//http://code.google.com/p/explorercanvas/
+				G_vmlCanvasManager.initElement(layer);
+			}
             ctx = layer.getContext("2d");
 
-
-
             //draw white background for images that are not square
-            canvasManager.draw("piece" + i, 0, 0, scale, scale, 'rgba(255,255,255,1)');
+            canvasManager.draw("piece" + i, 0, 0, scale, scaleY, 'rgba(255,255,255,1)');
 
-
-
+			
             //draw cropped image
-            ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
-
+            try{
+				ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+			}catch(e){
+				//If index or size is negative, or greater than the allowed value
+				console.log(e);
+			}
+			
+			
+			
             //$("#secondsLeft h1").append(i+" ,");
             if (debug) {
                 var r = 255; //Math.round(Math.random()*100);
                 var g = 255; //Math.round(Math.random()*100);
                 var b = 255; //Math.round(Math.random()*100);        
-                canvasManager.draw("piece" + i, 0, 0, scale, scale, 'rgba(' + r + ',' + g + ',' + b + ',.5)');
+                canvasManager.draw("piece" + i, 0, 0, scale, scaleY, 'rgba(' + r + ',' + g + ',' + b + ',.5)');
 
                 ctx.fillStyle = 'rgba(0,0,0,1)';
                 ctx.textAlign = "center";
@@ -419,13 +440,14 @@ com.jtubert.Puzzle = function() {
             $("#holder").css("top", "0%");
             ypos = w + 10;
         }
-
+		
+		
         //$("#secondsLeft").css("margin-top",10);
-        $("#secondsLeft").css("top", ypos);
+        $("#secondsLeft").css("top", 10);
         $("#secondsLeft").css("width", w + "px");
         $("#secondsLeft").css("margin-left", -(w / 2));
         $("#secondsLeft").css("left", "50%");
-
+		
         //$("#secondsLeft").css("border","1px solid");
     };
 	
@@ -453,7 +475,8 @@ com.jtubert.Puzzle = function() {
 	 * @return {void} Doesn't return anything.
 	 */
     self.onMouseUp = function(e) {		
-        $("canvas").css("border", "");
+        $("canvas").css("border", "none");
+		$("canvas").css("margin", "");
         $("canvas").css("opacity", "1");
 
         var targ = e.target ? e.target : e.srcElement;
@@ -606,11 +629,13 @@ com.jtubert.Puzzle = function() {
         ///////////////////////////////////////
         if (elem.id.indexOf("piece") !== -1) {
             $(elem).css("border", "5px solid red");
-            $(elem).css("z-index", totalPieces);
+			$(elem).css("margin", "-5px");
+            $(elem).css("z-index", totalPieces+1);
         }
 
         var otherContents = $("#holder").find("canvas").not(elem);
-        otherContents.css("border", "");
+        otherContents.css("border", "none");
+		otherContents.css("margin", "");
     };
 
     self.onMouseOver = function(e) {
@@ -661,6 +686,7 @@ com.jtubert.Puzzle.Utils = new function() {
 com.jtubert.Puzzle.canvasManager = function() {
     var self = this;
     var canvasWrapper;
+	var G_vmlCanvasManager; // so non-IE won't freak out in canvasInit
     var viewport = {
         height: 0,
         width: 0
@@ -677,6 +703,11 @@ com.jtubert.Puzzle.canvasManager = function() {
 
     self.draw = function(id, x, y, width, height, color) {
         var layer = document.getElementById(id);
+		if(G_vmlCanvasManager != undefined){
+			//http://code.google.com/p/explorercanvas/
+			G_vmlCanvasManager.initElement(layer);
+		}
+		
         var ctx = layer.getContext("2d");
 
         //ctx.canvas.width  = width;

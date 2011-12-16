@@ -1,14 +1,3 @@
-/* *********************************************************************
- *
- * This software is intended to be used for informational purposes to
- * illustrate user experience, visual design, layout, transitions, and 
- * other creative requirements. This software may not be optimized for 
- * performance, scalability, security, interoperability and reuse, and 
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
- * OF ANY KIND, either express or implied. 
- *
- * ********************************************************************/
-
 package com.rga;
 
 

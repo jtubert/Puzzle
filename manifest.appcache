@@ -1,0 +1,28 @@
+CACHE MANIFEST
+
+#version 1.0 8-8-2011
+
+CACHE:
+
+#images
+http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png
+
+#internal HTML documents
+
+
+#style sheets
+chrome-extension://cpngackimfmofbokmjmljamhdncknpmg/style.css
+http://jtubert.github.com/Puzzle/css/style.css
+
+#style sheet images
+
+
+#javascript files
+http://jtubert.github.com/Puzzle/js/jquery-1.4.4.min.js
+http://jtubert.github.com/Puzzle/js/jquery.getimagedata.min.js
+http://jtubert.github.com/Puzzle/js/jquery-ui-1.8.10.custom.min.js
+http://jtubert.github.com/Puzzle/js/Puzzle.js
+chrome-extension://cpngackimfmofbokmjmljamhdncknpmg/page_context.js
+
+NETWORK:
+*

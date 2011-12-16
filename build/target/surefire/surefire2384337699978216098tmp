@@ -1,0 +1,5 @@
+#surefire
+#Wed Aug 24 13:00:03 GMT-03:00 2011
+user.dir=/Applications/MAMP/htdocs/puzzle_ongit/Puzzle_onGit/build
+localRepository=/Users/jtubert/.m2/repository
+basedir=/Applications/MAMP/htdocs/puzzle_ongit/Puzzle_onGit/build

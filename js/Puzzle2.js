@@ -38,6 +38,9 @@ com.jtubert.Puzzle = function() {
 	
 	var items;
 	var removedPiece;
+	var shuffleTimer;
+	var rowOrCol = 0;
+	var shuffleCounter = 0;
 	
 	
 	self.getItems = function() {
@@ -59,7 +62,7 @@ com.jtubert.Puzzle = function() {
             level = Number(com.jtubert.Puzzle.Utils.getUrlVars().level);
         }
 
-		console.log(com.jtubert.Puzzle.Utils.getUrlVars());
+		//console.log(com.jtubert.Puzzle.Utils.getUrlVars());
 
         if (com.jtubert.Puzzle.Utils.getUrlVars().url) {
             url = com.jtubert.Puzzle.Utils.getUrlVars().url;
@@ -247,6 +250,8 @@ com.jtubert.Puzzle = function() {
 
         column = Math.ceil(Math.sqrt(totalPieces));
         var scale = Math.floor((gridW - (space * (column - 1))) / column);
+		
+		var scaleY = Math.floor((img.height - (space * (column - 1))) / column);
         var x = 0;
         var y = 0;
         var layer;
@@ -266,7 +271,7 @@ com.jtubert.Puzzle = function() {
                 //$("#secondsLeft h1").append(i+": "+x+" ,"+y+" // ");
             } else {
                 x = startX + (((scale + space) * (i - (Math.floor(i / column)) * column)));
-                y = (((scale + space) * (Math.floor(i / column))));
+                y = (((scaleY + space) * (Math.floor(i / column))));
 
             }
 
@@ -276,11 +281,11 @@ com.jtubert.Puzzle = function() {
             var sourceX = x;
             var sourceY = y;
             var sourceWidth = scale;
-            var sourceHeight = scale;
+            var sourceHeight = scaleY;
             var destX = 0;
             var destY = 0;
             var destWidth = scale;
-            var destHeight = scale;
+            var destHeight = scaleY;
             canvasManager.create(i, "piece" + i, scale, scale);
 
 
@@ -291,7 +296,7 @@ com.jtubert.Puzzle = function() {
 			
 			
             //draw white background for images that are not square
-            canvasManager.draw("piece" + i, 0, 0, scale, scale, 'rgba(255,255,255,1)');
+            canvasManager.draw("piece" + i, 0, 0, scale, scaleY, 'rgba(255,255,255,1)');
 
 
 
@@ -306,7 +311,7 @@ com.jtubert.Puzzle = function() {
                 var r = 255; //Math.round(Math.random()*100);
                 var g = 255; //Math.round(Math.random()*100);
                 var b = 255; //Math.round(Math.random()*100);        
-                canvasManager.draw("piece" + i, 0, 0, scale, scale, 'rgba(' + r + ',' + g + ',' + b + ',.5)');
+                canvasManager.draw("piece" + i, 0, 0, scale, scaleY, 'rgba(' + r + ',' + g + ',' + b + ',.5)');
 
                 ctx.fillStyle = 'rgba(0,0,0,1)';
                 ctx.textAlign = "center";
@@ -333,18 +338,24 @@ com.jtubert.Puzzle = function() {
 	            var r = 255;	 
 	            var g = 255; 
 	            var b = 255;     
-	            canvasManager.draw("piece" + i, 0, 0, scale, scale, 'rgba(' + r + ',' + g + ',' + b + ',1)');
+	            canvasManager.draw("piece" + i, 0, 0, scale, scaleY, 'rgba(' + r + ',' + g + ',' + b + ',1)');
 	            ctx.fillStyle = 'rgba(0,0,0,1)';
 				//move it to the back
 	            $("#piece"+i).css("z-index",-1);
 	        }else{
-				if (!IsiPhoneOS) {
-	                layer.addEventListener('mouseover', self.onMouseOver, false);
-	                layer.addEventListener('mouseout', self.onMouseOut, false);
-					layer.addEventListener('mouseup', self.onMouseUp, false);
+				if (!IsiPhoneOS) {	                				
+					$('#piece'+i).bind('mouseover', self.onMouseOver);
+					$('#piece'+i).bind('mouseout', self.onMouseOut);
+					$('#piece'+i).bind('mouseup', self.onMouseUp);					
 	            }
 			}			
 		}
+		
+		shuffleCounter  = 0;
+		shuffleTimer = window.setInterval(self.startShuffle, 500);		
+		//window.setTimeout(self.startShuffle, 1000);		
+		
+		
 		/*
         //$("canvas").css("border","1px solid");
 
@@ -390,7 +401,33 @@ com.jtubert.Puzzle = function() {
 		
     };
 	
-	
+	self.startShuffle = function(){
+		//check to see how many times it was shouffled
+		if(shuffleCounter >= Math.round(totalPieces/2)){
+			window.clearInterval(shuffleTimer);
+			$("#shuffling").hide();
+			return;			
+		}		
+		shuffleCounter++;
+		
+		
+		var pos = $("#piece"+removedPiece).attr("pos");
+		var col = items[pos].col;
+		var row = items[pos].row;
+		var arr;
+		
+		//shuffle by column and by row
+		if(rowOrCol == 0){
+			arr = self.getItemsInRow(row);
+			rowOrCol = 1;	
+		}else{
+			arr = self.getItemsInCol(col);
+			rowOrCol = 0;	
+		}		
+		
+		$("#piece"+arr[Math.floor(Math.random()*Number(arr.length))]).trigger('mouseup');	
+		
+	}
 	
 	/**
 	 * This method centers the puzzle in screen using css
@@ -491,10 +528,7 @@ com.jtubert.Puzzle = function() {
 			    top: items[to].y
 			  }, {
 			    duration: 200,
-			    specialEasing: {
-			      left: 'linear',
-			      top: 'linear'
-			    },
+			    easing: 'easeOutBounce',			     
 			    complete: function() {
 			      console.log("done");
 			    }
