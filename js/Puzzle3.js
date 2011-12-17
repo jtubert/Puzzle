@@ -54,6 +54,7 @@ com.jtubert.Puzzle = function() {
 	var lightMesh;
 	var startTime = Date.now();
 	
+	var cubeArray;
 	
 	self.getItems = function() {
 		return items
@@ -146,37 +147,21 @@ com.jtubert.Puzzle = function() {
 	}
 	
 	self.onDocumentMouseDown = function( event ) {
-
-
-
-		event.preventDefault();
-
+		if(event.preventDefault){
+			event.preventDefault();
+		}
+		
 		var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
 		projector.unprojectVector( vector, camera );
 
 		var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
 
 		var intersects = ray.intersectScene( scene );	
-
-
+		
 		if ( intersects.length > 0 ) {
-
-			new TWEEN.Tween( intersects[ 0 ].object.rotation ).to( {
-				y:-90}, 2000 )
-			.easing( TWEEN.Easing.Cubic.EaseOut).start();
-
-
-
+			self.onMouseUp(intersects[ 0 ].object);
+			//console.log(intersects[ 0 ].object.id)
 		}
-
-		/*
-		// Parse all the faces
-		for ( var i in intersects ) {
-
-			intersects[ i ].face.material[ 0 ].color.setHex( Math.random() * 0xffffff | 0x80000000 );
-
-		}
-		*/
 
 	}
 
@@ -289,24 +274,7 @@ com.jtubert.Puzzle = function() {
         }    
     };
 	
-	/**
-	 * This method shows the timer and when it gets to zero it finishes the game
-	 *
-	 * @method checkTime
-	 * @return {void} Doesn't return anything.
-	 */
-    self.checkTime = function() {
-        if (currentTime > 0) {
-            currentTime--;
-            $("#secondsLeft h1").html(currentTime + " seconds left");
-        } else {
-            window.clearInterval(timer);
-            alert("GAME OVER. Play again?");
-            self.gotoNextLevel();
-        }
-
-    };
-
+	
 	/**
 	 * This method draws the puzzle
 	 *
@@ -321,6 +289,7 @@ com.jtubert.Puzzle = function() {
 
         totalPieces = Math.abs(level + 2) * Math.abs(level + 2);
         pieceArr = [];
+		cubeArray = [];
         
 		items = [];
 
@@ -394,12 +363,11 @@ com.jtubert.Puzzle = function() {
 			
 			var texture = new THREE.Texture(canvas);
 			texture.needsUpdate = true;
-			var material = new THREE.MeshBasicMaterial({map : texture});			
-		  	
+			var material = new THREE.MeshBasicMaterial({map : texture});
+			
 			var cube = new THREE.Mesh( new THREE.CubeGeometry( destWidth, destWidth, destWidth ), material ); //new THREE.MeshNormalMaterial());
 			
-			
-			
+			cube.overdraw = true;
 			cube.doubleSided = true;
 		  	cube.position.x = x-200;
 			cube.position.y = -(y-200);
@@ -423,23 +391,25 @@ com.jtubert.Puzzle = function() {
 			scene.addLight( light3 );
 		        
 			//*******************************************************************
+			
+			cubeArray[cube.id] = i;
             
 			items[i] = {};
 			items[i].x = cube.position.x;
 			items[i].y = cube.position.y;
 			items[i].row = Math.floor(i/column);
-			items[i].col = i-(column*items[i].row);					
+			items[i].col = i-(column*items[i].row);	
+			items[i].pos = i;
+			items[i].cube = cube;
+			items[i].id = cube.id;				
 		}		
 		
 		$(document).bind('mousedown', self.onDocumentMouseDown);		
 		
 		shuffleCounter  = 0;
-		//shuffleTimer = window.setInterval(self.startShuffle, 500);		
-		
+		shuffleTimer = window.setInterval(self.startShuffle, 500);		
 		
 		self.animate();
-		
-		
     };
 
 
@@ -501,7 +471,7 @@ com.jtubert.Puzzle = function() {
 		shuffleCounter++;
 		
 		
-		var pos = $("#piece"+removedPiece).attr("pos");
+		var pos = items[removedPiece].pos;
 		var col = items[pos].col;
 		var row = items[pos].row;
 		var arr;
@@ -513,11 +483,20 @@ com.jtubert.Puzzle = function() {
 		}else{
 			arr = self.getItemsInCol(col);
 			rowOrCol = 0;	
-		}		
+		}
+		
+		var index = Math.floor(Math.random()*Number(arr.length));
+		var ele = arr[index];		
 		
 		//$("#piece"+arr[Math.floor(Math.random()*Number(arr.length))]).trigger('mouseup');
 		
-		$(document).trigger('mousedown');		
+		//$(document).trigger('mousedown');	
+		
+		//self.onDocumentMouseDown({ele:ele,clientX:items[ele].x+768,clientY:items[ele].y-100});
+		
+		//console.log(ele);
+		
+		self.onMouseUp(items[ele].cube);	
 		
 	}
 	
@@ -534,8 +513,8 @@ com.jtubert.Puzzle = function() {
 		var temp = [];
 		
 		for(var i=0;i<totalPieces;i++){
-			var pos = $("#piece"+i).attr('pos');
-			var removedPos = $("#piece"+removedPiece).attr('pos');				
+			var pos = items[i].pos;
+			var removedPos = items[removedPiece].pos;				
 			if(items[pos].col == col){				
 				//don't add the item if is the remove one
 				if(pos != removedPos){
@@ -558,8 +537,8 @@ com.jtubert.Puzzle = function() {
 		var temp = [];
 		
 		for(var i=0;i<totalPieces;i++){
-			var pos = $("#piece"+i).attr('pos');	
-			var removedPos = $("#piece"+removedPiece).attr('pos');		
+			var pos = items[i].pos;
+			var removedPos = items[removedPiece].pos;	
 			if(items[pos].row == row){
 				//don't add the item if is the remove one
 				if(pos != removedPos){
@@ -571,29 +550,29 @@ com.jtubert.Puzzle = function() {
 		return temp;
 	}
 	
+	self.moveCube = function(cube,x,y){
+		new TWEEN.Tween( cube.position ).to( {
+			x:x,y:y}, 2000 )
+		.easing( TWEEN.Easing.Cubic.EaseOut).start();
+	}
 	
 	self.moveTo = function(from,to,animateBool){
+		var fromCube = items[from].cube;
+		
 		
 		if(animateBool){
-			$('#piece'+from).animate({
-			    left: items[to].x,
-			    top: items[to].y
-			  }, {
-			    duration: 200,
-			    easing: 'easeOutBounce',			     
-			    complete: function() {
-			      console.log("done");
-			    }
-			  });
+			self.moveCube(fromCube,items[to].x,items[to].y);
 		}else{
 			//move canvas element to position
-			$("#piece" + from).css("left", items[to].x);
-		    $("#piece" + from).css("top", items[to].y);
+			fromCube.position.x=items[to].x;
+		    fromCube.position.y=items[to].y;
 		}
 				
 		
 		//change pos value to new value
-		$("#piece"+from).attr('pos',to);
+		//$("#piece"+from).attr('pos',to);
+		
+		items[from].pos = to;
 	}
 	
 	
@@ -605,31 +584,23 @@ com.jtubert.Puzzle = function() {
 	 * @param {Event} Event object passed by the mouse event
 	 * @return {void} Doesn't return anything.
 	 */
-    self.onMouseUp = function(e) {
-		$("canvas").css("border", "");
-        $("canvas").css("opacity", "1");
-		var targ = e.target ? e.target : e.srcElement;
-		//var index = Number(targ.id.substr(5));
+    self.onMouseUp = function(cube) {
+	
+		var index = cubeArray[cube.id];
 		
-		var index = targ.id.substr(5);
+		var pos = items[index].pos;
 		
-		if (targ.id.indexOf("piece") === -1) {
-            return;
-        }
-
-        $("#" + targ.id).css("opacity", "1");
-
-
-		var pos = Number($("#piece"+index).attr('pos'));
+		//console.log(index, pos);
 		
-		var removePos = Number($("#piece"+removedPiece).attr('pos'));		
-		
+		var removePos = items[removedPiece].pos;		
 		
 		if(items[removePos].row == items[pos].row){					
 			if(removePos > pos){				
 				var itemsInRow = self.getItemsInRow(items[pos].row);				
 				for(var i=0;i<itemsInRow.length;i++){					
-					var p = $("#piece"+itemsInRow[i]).attr("pos");
+					//var p = $("#piece"+itemsInRow[i]).attr("pos");
+					var p = items[itemsInRow[i]].pos;
+					
 					var itemCol = items[p].col;					
 					if(items[removePos].col >= itemCol){						
 						if(itemCol >= items[pos].col){							
@@ -641,7 +612,7 @@ com.jtubert.Puzzle = function() {
 			}else{				
 				var itemsInRow = self.getItemsInRow(items[pos].row);					
 				for(var i=0;i<itemsInRow.length;i++){					
-					var p = $("#piece"+itemsInRow[i]).attr("pos");
+					var p = items[itemsInRow[i]].pos;
 					var itemCol = items[p].col;						
 					if(items[removePos].col <= itemCol){						
 						if(itemCol <= items[pos].col){							
@@ -651,15 +622,18 @@ com.jtubert.Puzzle = function() {
 					}
 				}
 			}			
-			$("#piece" + removedPiece).css("left", items[pos].x);
-		    $("#piece" + removedPiece).css("top", items[pos].y);	
-			$("#piece"+removedPiece).attr('pos',pos);
+			//$("#piece" + removedPiece).css("left", items[pos].x);
+		    //$("#piece" + removedPiece).css("top", items[pos].y);	
+			//$("#piece"+removedPiece).attr('pos',pos);
+			
+			items[removedPiece].pos = pos;
 			
 		}else if(items[removePos].col == items[pos].col){
 			if(items[removePos].row > items[pos].row){				
 				var itemsInCol = self.getItemsInCol(items[pos].col);				
 				for(var i=0;i<itemsInCol.length;i++){					
-					var p = $("#piece"+itemsInCol[i]).attr("pos");
+					//var p = $("#piece"+itemsInCol[i]).attr("pos");
+					var p = items[itemsInCol[i]].pos;
 					var itemRow = items[p].row;
 					if(items[removePos].row > itemRow){						
 						if(itemRow >= items[pos].row){							
@@ -672,7 +646,7 @@ com.jtubert.Puzzle = function() {
 			}else{				
 				var itemsInCol = self.getItemsInCol(items[pos].col);				
 				for(var i=0;i<itemsInCol.length;i++){					
-					var p = $("#piece"+itemsInCol[i]).attr("pos");
+					var p = items[itemsInCol[i]].pos;
 					var itemRow = items[p].row;										
 					if(items[removePos].row < itemRow){												
 						if(itemRow <= items[pos].row){							
@@ -684,11 +658,12 @@ com.jtubert.Puzzle = function() {
 				}		
 			}
 			
-			console.log(pos);
 			
-			$("#piece" + removedPiece).css("left", items[pos].x);
-		    $("#piece" + removedPiece).css("top", items[pos].y);	
-			$("#piece"+removedPiece).attr('pos',pos);
+			
+			//$("#piece" + removedPiece).css("left", items[pos].x);
+		    //$("#piece" + removedPiece).css("top", items[pos].y);	
+			//$("#piece"+removedPiece).attr('pos',pos);
+			items[removedPiece].pos = pos;
 		}else{
 			console.log("move NOTHING");
 		}
