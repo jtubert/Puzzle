@@ -136,13 +136,13 @@ com.jtubert.Puzzle = function() {
 		
 		
 		
-		/*
+		
 		// init the Stats and append it to the Dom - performance vuemeter
 		stats = new Stats();
 		stats.domElement.style.position = 'absolute';
 		stats.domElement.style.top = '0px';
 		container.appendChild( stats.domElement );
-		*/		
+				
 		
 	}
 	
@@ -323,7 +323,7 @@ com.jtubert.Puzzle = function() {
                 //$("#secondsLeft h1").append(i+": "+x+" ,"+y+" // ");
             } else {
                 x = startX + (((scale + space) * (i - (Math.floor(i / column)) * column)));
-                y = (((scaleY + space) * (Math.floor(i / column))));
+                y = (((scaleY + 0) * (Math.floor(i / column))));
 
             }
 
@@ -345,8 +345,8 @@ com.jtubert.Puzzle = function() {
 			
 			//*******************************************************************
 			var canvas = document.createElement("canvas");
-			canvas.width = sourceWidth;
-			canvas.height = sourceWidth;			
+			canvas.width = scale;
+			canvas.height = scaleY;			
 			var context = canvas.getContext("2d"); 
 		  	//draw cropped image
             context.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
@@ -365,7 +365,7 @@ com.jtubert.Puzzle = function() {
 			texture.needsUpdate = true;
 			var material = new THREE.MeshBasicMaterial({map : texture});
 			
-			var cube = new THREE.Mesh( new THREE.CubeGeometry( destWidth, destWidth, destWidth ), material ); //new THREE.MeshNormalMaterial());
+			var cube = new THREE.Mesh( new THREE.CubeGeometry( destWidth, destHeight, destWidth ), material ); //new THREE.MeshNormalMaterial());
 			
 			cube.overdraw = true;
 			cube.doubleSided = true;
@@ -422,41 +422,34 @@ com.jtubert.Puzzle = function() {
 		// relaunch the 'timer' 
 		requestAnimationFrame( self.animate );
 		// update the stats
-		//stats.update();
+		stats.update();
+	}
+	
+	self.setCameraPosition = function(x,y,z){
+		camera.position.x = x || camera.position.x;
+		camera.position.y = y || camera.position.y ;
+		camera.position.z = z || camera.position.z;
+	}
+	
+	self.setCameraRotation = function(x,y,z){
+		camera.rotation.x = x || camera.rotation.x;
+		camera.rotation.y = y || camera.rotation.y ;
+		camera.rotation.z = z || camera.rotation.z;
 	}
 
 
 	// ## Render the 3D Scene
 	self.render = function() {
-		// animate the cube
-		//cube2.rotation.x += 0.02;
-		//cube.rotation.y += 0.0225;
-		//cube.rotation.z += 0.0175;
-
-
-	  	//camera.position.z +=0.8;
 		var dtime	= Date.now() - startTime;
-		camera.position.x	+= 20*Math.sin(dtime/300);
-
-		light1.position.x +=0.02;
-		light1.position.y +=0.0225;
-		light1.position.z +=0.0175;
+		var pos = 20*Math.sin(dtime/300);
 		
-		light2.position.x +=0.02;
-		light2.position.y +=0.0225;
-		light2.position.z +=0.0175;
-		
-		light3.position.x +=0.02;
-		light3.position.y +=0.0225;
-		light3.position.z +=0.0175;
-		
-		
-
-		// make the cube bounce
-		//var dtime	= Date.now() - startTime;
-		//camera.position.x	= 1.0 + 0.3*Math.sin(dtime/300);
-		//camera.position.y	= 1.0 + 0.3*Math.sin(dtime/300);
-		//camera.position.z	= 1.0 + 0.3*Math.sin(dtime/300);
+		if(camera.position.x+pos > 600){
+			pos = 0;
+		}else if(camera.position.x+pos < -600){
+			pos = 0;
+		} 
+		//console.log(pos);
+		camera.position.x	+= pos;
 		// actually display the scene in the Dom element
 		renderer.render( scene, camera );
 	}
@@ -469,7 +462,6 @@ com.jtubert.Puzzle = function() {
 			return;			
 		}		
 		shuffleCounter++;
-		
 		
 		var pos = items[removedPiece].pos;
 		var col = items[pos].col;
@@ -484,20 +476,9 @@ com.jtubert.Puzzle = function() {
 			arr = self.getItemsInCol(col);
 			rowOrCol = 0;	
 		}
-		
 		var index = Math.floor(Math.random()*Number(arr.length));
-		var ele = arr[index];		
-		
-		//$("#piece"+arr[Math.floor(Math.random()*Number(arr.length))]).trigger('mouseup');
-		
-		//$(document).trigger('mousedown');	
-		
-		//self.onDocumentMouseDown({ele:ele,clientX:items[ele].x+768,clientY:items[ele].y-100});
-		
-		//console.log(ele);
-		
+		var ele = arr[index];
 		self.onMouseUp(items[ele].cube);	
-		
 	}
 	
 	
