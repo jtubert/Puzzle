@@ -139,12 +139,13 @@ com.jtubert.Puzzle = function() {
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		container.appendChild( renderer.domElement );
 
-
+		/*
 		// init the Stats and append it to the Dom - performance vuemeter
 		stats = new Stats();
 		stats.domElement.style.position = 'absolute';
 		stats.domElement.style.top = '0px';
 		container.appendChild( stats.domElement );
+		*/
 	}
 
 	self.onDocumentMouseMove = function (event){
@@ -426,7 +427,7 @@ com.jtubert.Puzzle = function() {
 		// relaunch the 'timer' 
 		requestAnimationFrame( self.animate );
 		// update the stats
-		stats.update();
+		//stats.update();
 	}
 	
 	self.setCameraPosition = function(x,y,z){
