@@ -55,6 +55,8 @@ com.jtubert.Puzzle = function() {
 	var startTime = Date.now();
 	
 	var cubeArray;
+	var mouseX;
+	var mouseY;
 	
 	self.getItems = function() {
 		return items
@@ -120,7 +122,13 @@ com.jtubert.Puzzle = function() {
 		scene = new THREE.Scene();
 		
 		
-		
+		// Add the lights
+		var light = new THREE.PointLight( 0xffffff, 1 );
+		light.position.set( 200, 10, 10 );
+		scene.addLight( light );
+
+		var ambientLight = new THREE.AmbientLight( 0xbbbbbb );
+		scene.addLight( ambientLight );
 		
 		// create the container element
 		container = document.createElement( 'div' );
@@ -132,18 +140,17 @@ com.jtubert.Puzzle = function() {
 		container.appendChild( renderer.domElement );
 
 
-
-		
-		
-		
-		
 		// init the Stats and append it to the Dom - performance vuemeter
 		stats = new Stats();
 		stats.domElement.style.position = 'absolute';
 		stats.domElement.style.top = '0px';
 		container.appendChild( stats.domElement );
-				
-		
+	}
+
+	self.onDocumentMouseMove = function (event){
+		// Update mouseX and mouseY based on the new mouse X and Y positions
+	    mouseX = ( event.clientX - window.innerWidth/2 );
+	    mouseY = ( event.clientY - window.innerHeight/2 );
 	}
 	
 	self.onDocumentMouseDown = function( event ) {
@@ -350,7 +357,9 @@ com.jtubert.Puzzle = function() {
 			var context = canvas.getContext("2d"); 
 		  	//draw cropped image
             context.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
-
+			
+			
+			
 
 			if (debug) {                
                 context.fillStyle = 'rgba(255,255,255,1)';
@@ -363,9 +372,16 @@ com.jtubert.Puzzle = function() {
 			
 			var texture = new THREE.Texture(canvas);
 			texture.needsUpdate = true;
-			var material = new THREE.MeshBasicMaterial({map : texture});
+			var material = new THREE.MeshLambertMaterial( { color: 0xffffff, map: texture } );
 			
-			var cube = new THREE.Mesh( new THREE.CubeGeometry( destWidth, destHeight, destWidth ), material ); //new THREE.MeshNormalMaterial());
+			//var material1 = new THREE.MeshLambertMaterial( { color: 0xffffff, map: THREE.ImageUtils.loadTexture( 'img/laura.jpg' ) } );
+			//var material2 = new THREE.MeshLambertMaterial( { color: 0xffffff, map: THREE.ImageUtils.loadTexture( 'img/car.jpg' ) } );
+			//var material=[material2,material2,material2,material2,material1,material2];
+			
+			//var cube = new THREE.Mesh( new THREE.CubeGeometry( destWidth, destHeight, destWidth ), material ); //new THREE.MeshNormalMaterial());
+			var cube = new THREE.Mesh( new THREE.CubeGeometry( destWidth, destHeight, destWidth, 4, 4, 1, material ), new THREE.MeshFaceMaterial() );
+			
+			console.log(cube);
 			
 			cube.overdraw = true;
 			cube.doubleSided = true;
@@ -375,20 +391,6 @@ com.jtubert.Puzzle = function() {
 			if(removedPiece != i){
 				scene.addObject( cube );
 			}
-			
-		
-		
-			// LIGHTS
-			//scene.addLight( new THREE.AmbientLight( 0x00020 ) );
-
-			light1 = new THREE.PointLight( 0xff0040, 1, 50 );
-			scene.addLight( light1 );
-
-			light2 = new THREE.PointLight( 0x0040ff, 1, 50 );
-			scene.addLight( light2 );
-
-			light3 = new THREE.PointLight( 0x80ff80, 1, 50 );
-			scene.addLight( light3 );
 		        
 			//*******************************************************************
 			
@@ -404,7 +406,9 @@ com.jtubert.Puzzle = function() {
 			items[i].id = cube.id;				
 		}		
 		
-		$(document).bind('mousedown', self.onDocumentMouseDown);		
+		$(document).bind('mousedown', self.onDocumentMouseDown);
+		
+		$(document).bind('mousemove', self.onDocumentMouseMove);		
 		
 		shuffleCounter  = 0;
 		shuffleTimer = window.setInterval(self.startShuffle, 500);		
@@ -447,7 +451,12 @@ com.jtubert.Puzzle = function() {
 			pos = 0;
 		}else if(camera.position.x+pos < -600){
 			pos = 0;
-		} 
+		}
+		
+		//camera.position.x += mouseX * 0.005;
+		//camera.rotation.y = mouseY * 0.005;
+		
+		 
 		//console.log(pos);
 		camera.position.x	+= pos;
 		// actually display the scene in the Dom element
