@@ -59,6 +59,7 @@ body {
 }
 
 canvas{
+	
 	top:-1px;
 	left:-1px;
 	border:1px solid;
@@ -73,7 +74,7 @@ canvas{
     height: 100%;
     background: rgba(0, 0, 0,.5);
     z-index: 9999999;
-    position: relative;
+    position: absolute;
 	
 }
 
@@ -106,6 +107,13 @@ function BlockMove(event) {
 			//document.location.href
 			//puzzle.init("http://labs.jtubert.com/canvas/puzzle/img/flower.jpg");
 		});
-	</script>	
+	</script>
+	<center>
+		<div id="shuffling">
+			<h1>Shuffling...</h1>
+		</div>
+	</center>
+	
+		
 </body>
 </html>
