@@ -722,7 +722,7 @@ com.jtubert.Puzzle = function() {
 
     self.onMobileEnd = function(e) {
         if (e.changedTouches.length === 1) {
-            self.onMouseUp(e.changedTouches[0]);
+            self.onDocumentMouseDown(e.changedTouches[0]);
         }
     };
 
