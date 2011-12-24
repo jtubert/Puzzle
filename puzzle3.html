@@ -99,6 +99,10 @@ function BlockMove(event) {
 </head>
 
 <body style="background-color:black" ontouchmove="BlockMove(event);">
+	<audio id="beep"> 
+	  <source src="sounds/beep.mp3" type="audio/mpeg" /> 
+	  <source src="sounds/beep.ogv" type="audio/ogg" /> 
+	</audio>
 	<script>
 		var puzzle;
 		$(document).ready (function () {		

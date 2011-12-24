@@ -283,6 +283,12 @@ com.jtubert.Puzzle = function() {
     };
 	
 	
+	
+	self.beep = function() {
+		var $beep = $('#beep')[0];
+		$beep.play();
+	}
+	
 	/**
 	 * This method draws the puzzle
 	 *
@@ -430,17 +436,7 @@ com.jtubert.Puzzle = function() {
 		//stats.update();
 	}
 	
-	self.setCameraPosition = function(x,y,z){
-		camera.position.x = x || camera.position.x;
-		camera.position.y = y || camera.position.y ;
-		camera.position.z = z || camera.position.z;
-	}
 	
-	self.setCameraRotation = function(x,y,z){
-		camera.rotation.x = x || camera.rotation.x;
-		camera.rotation.y = y || camera.rotation.y ;
-		camera.rotation.z = z || camera.rotation.z;
-	}
 
 
 	// ## Render the 3D Scene
@@ -552,6 +548,7 @@ com.jtubert.Puzzle = function() {
 		
 		
 		if(animateBool){
+			self.beep();
 			self.moveCube(fromCube,items[to].x,items[to].y);
 		}else{
 			//move canvas element to position
