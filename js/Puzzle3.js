@@ -57,6 +57,9 @@ com.jtubert.Puzzle = function() {
 	var cubeArray;
 	var mouseX;
 	var mouseY;
+	var canvasW = window.innerWidth;
+	var canvasH = window.innerHeight;
+	
 	
 	self.getItems = function() {
 		return items
@@ -113,7 +116,10 @@ com.jtubert.Puzzle = function() {
 		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 		// create the camera
-		camera = new THREE.Camera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+		//camera = new THREE.Camera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+		
+		camera = new THREE.Camera( 70, canvasW / canvasH, 1, 1000 );
+		
 		//camera.position.x = -300;
 		//camera.position.y = -650;
 		camera.position.z = 650;
@@ -132,11 +138,12 @@ com.jtubert.Puzzle = function() {
 		
 		// create the container element
 		container = document.createElement( 'div' );
+		container.className = "container";
 		document.body.appendChild( container );
 
 		// init the WebGL renderer and append it to the Dom
 		renderer = new THREE.WebGLRenderer();
-		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.setSize( canvasW, canvasH );
 		container.appendChild( renderer.domElement );
 
 		/*
@@ -310,7 +317,7 @@ com.jtubert.Puzzle = function() {
 		var imageW = img.width || 400;
 
         //console.log("w: "+imageW);
-        var gridW = Math.min(imageW - 5, window.innerHeight - 90);
+        var gridW = Math.min(imageW - 5, canvasH - 90);
 
 
 
@@ -455,7 +462,7 @@ com.jtubert.Puzzle = function() {
 		
 		 
 		//console.log(pos);
-		camera.position.x	+= pos;
+		//camera.position.x	+= pos;
 		// actually display the scene in the Dom element
 		renderer.render( scene, camera );
 	}
