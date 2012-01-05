@@ -462,7 +462,7 @@ com.jtubert.Puzzle = function() {
 		
 		 
 		//console.log(pos);
-		//camera.position.x	+= pos;
+		camera.position.x	+= pos;
 		// actually display the scene in the Dom element
 		renderer.render( scene, camera );
 	}
